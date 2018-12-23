@@ -55,18 +55,9 @@ class SearchViewController: UIViewController {
         return url!
     }
     
-    func performStoreRequest(with url: URL) -> String? {
-        do {
-            return try String(contentsOf: url, encoding: .utf8)
-        } catch {
-            print("Download Error: \(error)")
-            return nil
-        }
-    }
     
-    func parse(json: String) -> [String: Any]? {
-        guard let data = json.data(using: .utf8, allowLossyConversion: false)
-            else { return nil }
+    
+    func parse(json data: Data) -> [String: Any]? {
         do {
             return try JSONSerialization.jsonObject(
                 with: data, options: []) as? [String: Any]
@@ -232,56 +223,44 @@ extension SearchViewController: UISearchBarDelegate {
             searchResults = []
             hasSearched = true
             
-            let queue = DispatchQueue.global()
-
-            queue.async {
-                let url = self.iTunesURL(searchText: searchBar.text!)
-                print("URL: '\(url)'")
-                
-                if let jsonString = self.performStoreRequest(with: url),
-                    let jsonDictionary = self.parse(json: jsonString) {
-                 //   print("Received JSON string '\(jsonString)'")
-                   // print("Dictionary \(jsonDictionary)")
-                    self.searchResults = self.parse(dictionary: jsonDictionary)
-                    //Sort array in ascending order using func "<" in SearchResult.swift
-                    self.searchResults.sort(by: <)
-                    // 3
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                        self.tableView.reloadData()
+            // 1
+            let url = iTunesURL(searchText: searchBar.text!)
+            // 2
+            let session = URLSession.shared
+            // 3
+            let dataTask = session.dataTask(with: url, completionHandler: {
+                data, response, error in
+                // 4
+                print("On main thread? " + (Thread.current.isMainThread ? "Yes" : "No"))
+                if let error = error {
+                    print("Failure! \(error)")
+                } else if let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode == 200 {
+                    if let data = data, let jsonDictionary = self.parse(json: data) {
+                        self.searchResults = self.parse(dictionary: jsonDictionary)
+                        self.searchResults.sort(by: <)
+                        DispatchQueue.main.async {
+                            self.isLoading = false
+                            self.tableView.reloadData()
+                        }
+                        return
                     }
-                    return
+                } else {
+                    print("Failure! \(response)")
                 }
+                
                 DispatchQueue.main.async {
+                    self.hasSearched = false
                     self.isLoading = false
+                    self.tableView.reloadData()
                     self.showNetworkError()
                 }
-            }
+            })
+            // 5
+            dataTask.resume()
             
-            /*
-            let url = iTunesURL(searchText: searchBar.text!)
-            print("URL: '\(url)'")
             
-            if let jsonString = performStoreRequest(with: url) {
-                print("Received JSON string '\(jsonString)'")
-                if let jsonDictionary = parse(json: jsonString) {
-                    print("Dictionary \(jsonDictionary)")
-                    searchResults = parse(dictionary: jsonDictionary)
-                    //Sort array in ascending order using func "<" in SearchResult.swift
-                    searchResults.sort(by: <)
-                    /*
-                     //other sorting way less read readliable
-                    searchResults.sort(by: { result1, result2 in
-                        return result1.name.localizedStandardCompare(
-                            result2.name) == .orderedAscending
-                    })*/
-                    isLoading = false
-                    tableView.reloadData()
-                    return
-                }
-            }
-            
-            showNetworkError()*/
+ 
         }
     }
     
