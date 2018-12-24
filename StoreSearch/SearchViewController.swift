@@ -12,10 +12,12 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    
 
     var searchResults: [SearchResult] = []
     var hasSearched = false
     var isLoading = false
+    var dataTask: URLSessionDataTask?
     
     struct TableViewCellIdentifiers {
         static let searchResultCell = "SearchResultCell"
@@ -217,6 +219,7 @@ extension SearchViewController: UISearchBarDelegate {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder() //This tells the UISearchBar that it should no longer listen to keyboard, ass a result the keyboard will hide itself
             
+            dataTask?.cancel()
             isLoading = true
             tableView.reloadData()
             
@@ -228,12 +231,12 @@ extension SearchViewController: UISearchBarDelegate {
             // 2
             let session = URLSession.shared
             // 3
-            let dataTask = session.dataTask(with: url, completionHandler: {
+            dataTask = session.dataTask(with: url, completionHandler: {
                 data, response, error in
                 // 4
                 print("On main thread? " + (Thread.current.isMainThread ? "Yes" : "No"))
-                if let error = error {
-                    print("Failure! \(error)")
+                if let error = error as? NSError, error.code == -999 {
+                    return // Search was cancelled
                 } else if let httpResponse = response as? HTTPURLResponse,
                     httpResponse.statusCode == 200 {
                     if let data = data, let jsonDictionary = self.parse(json: data) {
@@ -257,7 +260,7 @@ extension SearchViewController: UISearchBarDelegate {
                 }
             })
             // 5
-            dataTask.resume()
+            dataTask?.resume()
             
             
  
