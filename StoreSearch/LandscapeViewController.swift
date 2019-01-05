@@ -15,6 +15,7 @@ class LandscapeViewController: UIViewController {
     
     var searchResults = [SearchResult]()
     private var firstTime = true
+    private var downloadTasks = [URLSessionDownloadTask]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +86,11 @@ class LandscapeViewController: UIViewController {
         var x = marginX
         for (index, searchResult) in searchResults.enumerated() {
             // 1
-            let button = UIButton(type: .system)
+            let button = UIButton(type: .custom)
+            button.setBackgroundImage(UIImage(named: "LandscapeButton"),
+                                      for: .normal)
+            downloadImage(for: searchResult, andPlaceOn: button)
+            
             button.backgroundColor = UIColor.white
             button.setTitle("\(index)", for: .normal)
             // 2
@@ -126,8 +131,31 @@ class LandscapeViewController: UIViewController {
                        completion: nil)
     }
     
+    private func downloadImage(for searchResult: SearchResult,
+                               andPlaceOn button: UIButton) {
+        if let url = URL(string: searchResult.artworkSmallURL) {
+            let downloadTask = URLSession.shared.downloadTask(with: url) {
+                [weak button] url, response, error in
+                if error == nil, let url = url,
+                    let data = try? Data(contentsOf: url),
+                    let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        if let button = button {
+                            button.setImage(image, for: .normal)
+                        }
+                    }
+                }
+            }
+            downloadTask.resume()
+            downloadTasks.append(downloadTask)
+        }
+    }
+    
     deinit {
         print("deinit \(self)")
+        for task in downloadTasks {
+            task.cancel()
+        }
     }
     
     
