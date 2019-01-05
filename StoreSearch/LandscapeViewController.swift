@@ -90,9 +90,10 @@ class LandscapeViewController: UIViewController {
             button.setBackgroundImage(UIImage(named: "LandscapeButton"),
                                       for: .normal)
             downloadImage(for: searchResult, andPlaceOn: button)
-            
+            /*
             button.backgroundColor = UIColor.white
             button.setTitle("\(index)", for: .normal)
+            */
             // 2
             button.frame = CGRect(
                 x: x + paddingHorz,
