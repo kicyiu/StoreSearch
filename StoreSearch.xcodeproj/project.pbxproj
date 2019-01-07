@@ -17,6 +17,8 @@
 		6E31F97F21E152E600401585 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E31F98121E152E600401585 /* NothingFoundCell.xib */; };
 		6E31F98C21E1603200401585 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E31F98E21E1603200401585 /* LoadingCell.xib */; };
 		6E52E78C21E10E28009902CC /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E52E78B21E10E28009902CC /* Search.swift */; };
+		6E8459B621E24C64008CFD68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E8459B421E24C64008CFD68 /* Localizable.strings */; };
+		6E8459BF21E2F7C9008CFD68 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E8459C121E2F7C9008CFD68 /* InfoPlist.strings */; };
 		6E96551D21C557BE003F369B /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E96551C21C557BE003F369B /* SearchResult.swift */; };
 		6E96551F21C5761F003F369B /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E96551E21C5761F003F369B /* SearchResultCell.xib */; };
 		6E96552121C591D9003F369B /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E96552021C591D9003F369B /* SearchResultCell.swift */; };
@@ -41,6 +43,10 @@
 		6E31F99021E1605700401585 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LoadingCell.strings; sourceTree = "<group>"; };
 		6E52E78B21E10E28009902CC /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		6E8459B321E23780008CFD68 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		6E8459B521E24C64008CFD68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6E8459B721E24F2F008CFD68 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6E8459C021E2F7C9008CFD68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6E8459C221E2F7CF008CFD68 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6E96551C21C557BE003F369B /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		6E96551E21C5761F003F369B /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		6E96552021C591D9003F369B /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
@@ -83,6 +89,7 @@
 		6ED3410F21BDE5580086F2A6 /* StoreSearch */ = {
 			isa = PBXGroup;
 			children = (
+				6E8459B421E24C64008CFD68 /* Localizable.strings */,
 				6ED3411021BDE5580086F2A6 /* AppDelegate.swift */,
 				6ED3411221BDE5580086F2A6 /* SearchViewController.swift */,
 				6ED3411421BDE5580086F2A6 /* Main.storyboard */,
@@ -102,6 +109,7 @@
 				6E2A4F3421D9C44B005B223E /* LandscapeViewController.swift */,
 				6EA4C2DF21DBE43400CE5173 /* FadeOutAnimationController.swift */,
 				6E52E78B21E10E28009902CC /* Search.swift */,
+				6E8459C121E2F7C9008CFD68 /* InfoPlist.strings */,
 			);
 			path = StoreSearch;
 			sourceTree = "<group>";
@@ -166,6 +174,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ED3411821BDE55A0086F2A6 /* Assets.xcassets in Resources */,
+				6E8459BF21E2F7C9008CFD68 /* InfoPlist.strings in Resources */,
+				6E8459B621E24C64008CFD68 /* Localizable.strings in Resources */,
 				6E96551F21C5761F003F369B /* SearchResultCell.xib in Resources */,
 				6E31F97F21E152E600401585 /* NothingFoundCell.xib in Resources */,
 				6E31F98C21E1603200401585 /* LoadingCell.xib in Resources */,
@@ -215,6 +225,24 @@
 				6E31F99021E1605700401585 /* nl */,
 			);
 			name = LoadingCell.xib;
+			sourceTree = "<group>";
+		};
+		6E8459B421E24C64008CFD68 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E8459B521E24C64008CFD68 /* en */,
+				6E8459B721E24F2F008CFD68 /* nl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6E8459C121E2F7C9008CFD68 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E8459C021E2F7C9008CFD68 /* en */,
+				6E8459C221E2F7CF008CFD68 /* nl */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		6ED3411421BDE5580086F2A6 /* Main.storyboard */ = {

@@ -84,15 +84,17 @@ class Search {
     
     private func iTunesURL(searchText: String, category: Category) -> URL {
         let entityName = category.entityName
-        
+        let locale = Locale.autoupdatingCurrent
+        let language = locale.identifier
+        let countryCode = locale.regionCode ?? "en_US"
         let escapedSearchText = searchText.addingPercentEncoding(
-            withAllowedCharacters: CharacterSet.urlQueryAllowed)! //Ecode url special character like space, return a encoded string
-        let urlString = String(format:
-            "https://itunes.apple.com/search?term=%@&limit=200&entity=%@", escapedSearchText, entityName)
+            withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=%@&lang=%@&country=%@", escapedSearchText,
+            entityName, language, countryCode)
         let url = URL(string: urlString)
+        print("URL: \(url!)")
         return url!
     }
-    
     
     
     private func parse(json data: Data) -> [String: Any]? {
